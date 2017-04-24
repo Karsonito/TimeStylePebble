@@ -8,6 +8,8 @@ var weatherProviders = {
 
 var DEFAULT_WEATHER_PROVIDER = 'owm';
 
+// get weather if 30 min have elapsed
+var WEATHER_MAX_AGE = 30 * 60 * 1000;
 // get new forecasts if 3 hours have elapsed
 var FORECAST_MAX_AGE = 3 * 60 * 60 * 1000;
 var MAX_FAILURES = 3;
@@ -70,14 +72,18 @@ function updateWeather(forceUpdate) {
                     }
                   };
 
-        getCurrentWeatherProvider().getWeatherFromCoords(pos);
+        if (forceUpdate || isWeatherNeeded()) {
+          getCurrentWeatherProvider().getWeatherFromCoords(pos);
+        }
 
         if(forceUpdate || isForecastNeeded()) {
           getCurrentWeatherProvider().getForecastFromCoords(pos);
         }
       } else {
         // otherwise, use the stored string (legacy, or google was blocked from running)
-        getCurrentWeatherProvider().getWeather(weatherLoc);
+        if (forceUpdate || isWeatherNeeded()) {
+          getCurrentWeatherProvider().getWeather(weatherLoc);
+        }
 
         if(forceUpdate || isForecastNeeded()) {
           getCurrentWeatherProvider().getForecast(weatherLoc);
@@ -122,6 +128,18 @@ function locationSuccess(pos) {
   }
 }
 
+function isWeatherNeeded() {
+  var weatherAge = Date.now() - window.localStorage.getItem('last_weather_time');
+
+  console.log("Weather requested! Age is " + weatherAge);
+
+  if(weatherAge > WEATHER_MAX_AGE) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function isForecastNeeded() {
   var enableForecast = window.localStorage.getItem('enable_forecast');
   var lastForecastTime = window.localStorage.getItem('last_forecast_time');
@@ -141,7 +159,6 @@ function sendWeatherToPebble(dictionary) {
   Pebble.sendAppMessage(dictionary,
     function(e) {
       console.log('Weather info sent to Pebble successfully!');
-      window.localStorage.setItem('last_forecast_time', Date.now());
     },
     function(e) {
       // if we fail, wait a couple seconds, then try again

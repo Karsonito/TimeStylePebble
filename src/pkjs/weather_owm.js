@@ -71,6 +71,8 @@ function getAndSendCurrentWeather(url) {
         console.log(JSON.stringify(dictionary));
 
         weatherCommon.sendWeatherToPebble(dictionary);
+
+        window.localStorage.setItem('last_weather_time', Date.now());
       }
   });
 }
@@ -103,6 +105,8 @@ function getAndSendWeatherForecast(url) {
         console.log(JSON.stringify(dictionary));
 
         weatherCommon.sendWeatherToPebble(dictionary);
+
+        window.localStorage.setItem('last_forecast_time', Date.now());
     }
   });
 }
