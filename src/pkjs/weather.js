@@ -141,6 +141,7 @@ function sendWeatherToPebble(dictionary) {
   Pebble.sendAppMessage(dictionary,
     function(e) {
       console.log('Weather info sent to Pebble successfully!');
+      window.localStorage.setItem('last_forecast_time', Date.now());
     },
     function(e) {
       // if we fail, wait a couple seconds, then try again
