@@ -43,6 +43,7 @@ function getForecastFromCoords(pos) {
 
 // accepts an openweathermap url, gets weather data from it, and sends it to the watch
 function getAndSendCurrentWeather(url) {
+  console.log(url);
   weatherCommon.xhrRequest(url, 'GET',
     function(responseText) {
       // responseText contains a JSON object with weather info
