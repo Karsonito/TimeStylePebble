@@ -169,6 +169,8 @@ function getIconForConditionCode(conditionCode, isNight) {
 function extractFakeDailyForecast(json) {
   var todaysForecast = {};
 
+  console.log(Object.getOwnPropertyNames(Number))
+  console.log(-Number.MAX_SAFE_INTEGER + ' - ' + Number.MAX_SAFE_INTEGER);
   // find the max and min of those temperatures
   todaysForecast.highTemp = -Number.MAX_SAFE_INTEGER;
   todaysForecast.lowTemp  = Number.MAX_SAFE_INTEGER;
