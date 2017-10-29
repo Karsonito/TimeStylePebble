@@ -168,8 +168,9 @@ function getIconForConditionCode(conditionCode, isNight) {
 */
 function extractFakeDailyForecast(json) {
   var todaysForecast = {};
+  var conditions = [];
 
-  if (Number.MAX_SAFE_INTEGER == undefined) {
+  if (typeof Number.MAX_SAFE_INTEGER === 'undefined') {
     Number.MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
   }
   // find the max and min of those temperatures
@@ -184,10 +185,24 @@ function extractFakeDailyForecast(json) {
     if(todaysForecast.lowTemp > json.list[i].main.temp_min) {
       todaysForecast.lowTemp = json.list[i].main.temp_min;
     }
+
+    var id = json.list[i].weather[0].id;
+    if (conditions[id] === undefined) {
+      conditions[id] = 1;
+    } else {
+      conditions[id] += 1;
+    }
   }
 
-  // we can't really "average" conditions, so we'll just cheat and use...one of them :-O
-  todaysForecast.condition = json.list[3].weather[0].id;
+  var max_id;
+  var max_value = 0;
+  for (var id in conditions) {
+    if (conditions[id] > max_value) {
+      max_id = id;
+      max_value = conditions[id];
+    }
+  }
+  todaysForecast.condition = max_id;
 
   return todaysForecast;
 }
