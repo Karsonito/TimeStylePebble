@@ -173,7 +173,10 @@ function extractFakeDailyForecast(json) {
   todaysForecast.highTemp = -Number.MAX_SAFE_INTEGER;
   todaysForecast.lowTemp  = Number.MAX_SAFE_INTEGER;
 
+  console.log(json.list);
   for(var i = 0; i < json.list.length; i++) {
+    console.log('Time ' + new Date(json.list[i].dt * 1000) + ' - ' + json.list[i].main.temp_max + ', ' + json.list[i].main.temp_min);
+
     if(todaysForecast.highTemp < json.list[i].main.temp_max) {
       todaysForecast.highTemp = Math.round(json.list[i].main.temp_max);
     }
