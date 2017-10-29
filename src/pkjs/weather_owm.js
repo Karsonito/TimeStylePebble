@@ -81,6 +81,7 @@ function getAndSendWeatherForecast(url) {
   console.log(url);
   weatherCommon.xhrRequest(url, 'GET',
     function(responseText) {
+      console.log(responseText);
       // responseText contains a JSON object with weather info
       var json = JSON.parse(responseText);
 
