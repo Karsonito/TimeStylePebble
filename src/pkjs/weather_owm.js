@@ -184,6 +184,8 @@ function extractFakeDailyForecast(json) {
     if(todaysForecast.lowTemp > json.list[i].main.temp_min) {
       todaysForecast.lowTemp = Math.round(json.list[i].main.temp_min);
     }
+
+    console.log(JSON.stringify(todaysForecast));
   }
 
   // we can't really "average" conditions, so we'll just cheat and use...one of them :-O
