@@ -81,7 +81,6 @@ function getAndSendWeatherForecast(url) {
   console.log(url);
   weatherCommon.xhrRequest(url, 'GET',
     function(responseText) {
-      console.log(responseText);
       // responseText contains a JSON object with weather info
       var json = JSON.parse(responseText);
 
@@ -176,11 +175,11 @@ function extractFakeDailyForecast(json) {
 
   for(var i = 0; i < json.list.length; i++) {
     if(todaysForecast.highTemp < json.list[i].main.temp_max) {
-      todaysForecast.highTemp = json.list[i].main.temp_max;
+      todaysForecast.highTemp = Math.round(json.list[i].main.temp_max);
     }
 
     if(todaysForecast.lowTemp > json.list[i].main.temp_min) {
-      todaysForecast.lowTemp = json.list[i].main.temp_min;
+      todaysForecast.lowTemp = Math.round(json.list[i].main.temp_min);
     }
   }
 
