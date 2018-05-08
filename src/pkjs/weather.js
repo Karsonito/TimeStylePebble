@@ -10,8 +10,9 @@ var DEFAULT_WEATHER_PROVIDER = 'owm';
 
 // get weather if 30 min have elapsed
 var WEATHER_MAX_AGE = 30 * 60 * 1000;
-// get new forecasts if 3 hours have elapsed
-var FORECAST_MAX_AGE = 3 * 60 * 60 * 1000;
+// get new forecasts if 1 hour have elapsed
+var FORECAST_MAX_AGE = 1 * 60 * 60 * 1000;
+
 var MAX_FAILURES = 3;
 var currentFailures = 0;
 
